@@ -12,8 +12,9 @@
 - with the item `"oldplate"` it is possible to return to the original license plate so that the vehicle can be stored in your garage.
 - With the possibility of changes in the animation, animation time, items, etc.
 
-**Log system discord**
 ![webhook|578x347, 75%](https://i.imgur.com/BUNI9X0.png) 
+
+**Log system discord**
 - the configuration of the webhook must be done in `config.lua`
 
 **Dependencies and Compatibility**
