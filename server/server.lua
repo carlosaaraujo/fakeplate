@@ -2,19 +2,19 @@ ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-PerformHttpRequest(Config.DiscordWebhook, function(err, text, headers) end, 'POST', json.encode({
-    ['username'] = Config.WebhookName,
-    ['avatar_url'] = Config.WebhookAvatarUrl,
+PerformHttpRequest('Discordwebhook', function(err, text, headers) end, 'POST', json.encode({
+    ['username'] = 'WebhookName',
+    ['avatar_url'] = 'WebhookAvatarUrl',
     ['embeds'] = {{
         ['author'] = {
-            ['name'] = 'Sistema de placas falsas',
+            ['name'] = 'Webhook Name',
             ['icon_url'] = 'https://images3.memedroid.com/images/UPLOADED354/5d508d4f0dc59.jpeg'
         },
         ['footer'] = {
-            ['text'] = 'Iniciado e funcionando com sucesso'
+            ['text'] = 'Successfully started and running'
         },
         ['color'] = 12914,
-        ['description'] = 'Iniciado e funcionando com sucesso ✅',
+        ['description'] = 'Successfully started and running ✅',
         ['timestamp'] = os.date('!%Y-%m-%dT%H:%M:%SZ')
     }}
 }), {['Content-Type'] = 'application/json' })
@@ -40,20 +40,20 @@ end)
 ESX.RegisterUsableItem('fakeplate', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.getInventoryItem('bread') ~= nil then
+    if xPlayer.getInventoryItem('wrench') ~= nil then
 	   TriggerClientEvent('fakeplate:newPlate', source)
     else
-        xPlayer.showNotification('Você esqueceu uma ferramenta!')
+        xPlayer.showNotification('You forgot a tool!')
     end
 end)
 
 ESX.RegisterUsableItem('oldplate', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
-    if xPlayer.getInventoryItem('bread') ~= nil then
+    if xPlayer.getInventoryItem('wrench') ~= nil then
 	   TriggerClientEvent('fakeplate:oldPlate', source)
     else
-        xPlayer.showNotification('Você esqueceu uma ferramenta!')
+        xPlayer.showNotification('You forgot a tool!')
     end
 end)
 
@@ -72,7 +72,7 @@ AddEventHandler('fakeplate:useFake', function()
         xPlayer.removeInventoryItem('fakeplate', 1)
         xPlayer.addInventoryItem('oldplate', 1)
     else
-        xPlayer.showNotification('Espaço não suficiente no inventário.')
+        xPlayer.showNotification('Not enough inventory space.')
     end
 end)
 
@@ -95,7 +95,7 @@ function dclog(xPlayer, text, text2)
         end
     end
 	
-	local discord_webhook = GetConvar('discord_webhook', Config.DiscordWebhook)
+	local discord_webhook = GetConvar('discord_webhook', 'DiscordWebhook')
 	if discord_webhook == '' then
 	  return
 	end
@@ -103,21 +103,21 @@ function dclog(xPlayer, text, text2)
 	  ['Content-Type'] = 'application/json'
 	}
 	local data = {
-        ['username'] = Config.WebhookName,
-        ['avatar_url'] = Config.WebhookAvatarUrl,
+        ['username'] = 'WebhookName',
+        ['avatar_url'] = 'WebhookAvatarUrl',
         ['embeds'] = {{
           ['author'] = {
-            ['name'] = 'Sistema de placas falsas',
+            ['name'] = 'Fake Plate System',
             ['icon_url'] = 'https://images3.memedroid.com/images/UPLOADED354/5d508d4f0dc59.jpeg'
           },
           ['footer'] = {
-              ['text'] = 'Iniciado e funcionando com sucesso ✅'
+              ['text'] = 'Successfully started and running ✅'
           },
           ['color'] = 12914,
           ['timestamp'] = os.date('!%Y-%m-%dT%H:%M:%SZ')
         }}
       }
-    text = '**'..text..'**\n🆔 **ID**: '..tonumber(xPlayer.source)..'\n💻 **Steam:** '..xPlayer.identifier..'\n📋 **Nome do jogador:** '..xPlayer.getName()
+    text = '**'..text..'**\n🆔 **ID**: '..tonumber(xPlayer.source)..'\n💻 **Steam:** '..xPlayer.identifier..'\n📋 **Player name:** '..xPlayer.getName()
     if identifierDiscord ~= nil then
         text = text..'\n🛰️ **Discord:** <@'..string.sub(identifierDiscord, 9)..'>'
         identifierDiscord = nil

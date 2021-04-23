@@ -31,8 +31,10 @@ AddEventHandler('fakeplate:newPlate', function()
 			LastVehicle = Vehicle
 
 			TriggerEvent("fakeplate:animPlate")
-				TriggerEvent("hy_loading:startLoading", (12 * 1000))
-					Citizen.Wait((12 * 1000))
+				if Config.hyLoading == true then
+					TriggerEvent("hy_loading:startLoading", (Config.timeStart * 1000))
+				end
+				Citizen.Wait((Config.timeStart * 1000))
 
 					LicensePlate.Index = GetVehicleNumberPlateTextIndex(Vehicle)
 					LicensePlate.Number = GetVehicleNumberPlateText(Vehicle)
@@ -40,12 +42,12 @@ AddEventHandler('fakeplate:newPlate', function()
 					SetVehicleNumberPlateText(Vehicle, generatedPlate)
 					TriggerServerEvent("fakeplate:useFake")
 					
-					TriggerServerEvent('fakeplate:dclog', "🚗 Placa original: " ..LicensePlate.Number.. "\n🚗 Placa gerada: " ..generatedPlate)
+					TriggerServerEvent('fakeplate:dclog', "🚗 Original Plate: " ..LicensePlate.Number.. "\n🚗 Generated Plate: " ..generatedPlate)
 				else
-				TriggerEvent('esx:showNotification', '~r~ Nenhum veículo por perto.')
+				TriggerEvent('esx:showNotification', '~r~No vehicles nearby.')
 			end
 		else
-		TriggerEvent('esx:showNotification', '~r~ Você já modificou a placa de um veículo.')
+		TriggerEvent('esx:showNotification', '~r~You have already modified the license plate of a vehicle.')
 	end
 end)
 
@@ -67,24 +69,26 @@ AddEventHandler('fakeplate:oldPlate', function()
 				LastVehicle = nil
 
 				TriggerEvent("fakeplate:animPlate")
-				TriggerEvent("hy_loading:startLoading", (12 * 1000))
-				Citizen.Wait((12 * 1000))
+				if Config.hyLoading then
+					TriggerEvent("hy_loading:startLoading", (Config.timeStart * 1000))
+				end
+				Citizen.Wait((Config.timeStart * 1000))
 			
 				SetVehicleNumberPlateTextIndex(Vehicle, LicensePlate.Index)
 				SetVehicleNumberPlateText(Vehicle, LicensePlate.Number)
-				TriggerServerEvent('fakeplate:dclog', "🚗 Reverteu a placa: " ..LicensePlate.Number)
+				TriggerServerEvent('fakeplate:dclog', "🚗 Reverted the plate: " ..LicensePlate.Number)
 				LicensePlate.Index = false
 				LicensePlate.Number = false
 
 				TriggerServerEvent("fakeplate:useOld")
 				else				
-				TriggerEvent('esx:showNotification', '~r~ Essa placa não pertence a esse veículo.')
+				TriggerEvent('esx:showNotification', '~r~This license plate does not belong to this vehicle.')
 			end
 			else
-			TriggerEvent('esx:showNotification', '~r~ Nenhum veículo por perto.')
+			TriggerEvent('esx:showNotification', '~r~No vehicles nearby.')
 		end
 		else
-		TriggerEvent('esx:showNotification', '~r~ A placa é incompatível com o veículo.')
+		TriggerEvent('esx:showNotification', '~r~The license plate is incompatible with the vehicle.')
 	end
 end)
 
@@ -105,7 +109,7 @@ AddEventHandler('fakeplate:animPlate', function()
 			ESX.Streaming.RequestAnimDict(anim_lib, function()
 			TaskPlayAnim(player, anim_lib, anim_dict, 8.0, -8.0, -1, 0, 0, false, false, false)
 
-				Citizen.Wait((12 * 1000))
+				Citizen.Wait((Config.timeStart * 1000))
 
 				IsAnimated = false
 				DeleteObject(prop)
