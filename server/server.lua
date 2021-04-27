@@ -3,7 +3,7 @@ ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 -- Config Webhook
-local linkWebhook = "https://discord.com/api/webhooks/836424314689552394/BUERagjdgT6Pto9RsyUUjZ4AS7A3yqiA5ahuJpXLzEgGQSfu7WGELz-UHbVhtYm-Ye71"
+local linkWebhook = ""
 local webhookName = "City Log"
 local avatarWebhook = "https://i1.sndcdn.com/artworks-6x9vJH1uzKQJTOLF-xwsaTg-t500x500.jpg"
 
