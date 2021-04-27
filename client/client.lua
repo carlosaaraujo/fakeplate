@@ -76,7 +76,7 @@ AddEventHandler('fakeplate:oldPlate', function()
 			
 				SetVehicleNumberPlateTextIndex(Vehicle, LicensePlate.Index)
 				SetVehicleNumberPlateText(Vehicle, LicensePlate.Number)
-				TriggerServerEvent('fakeplate:dclog', "🚗 Reverted the plate: " ..LicensePlate.Number)
+				TriggerServerEvent('fakeplate:dclog', "🚗 Reverted plate: " ..LicensePlate.Number)
 				LicensePlate.Index = false
 				LicensePlate.Number = false
 

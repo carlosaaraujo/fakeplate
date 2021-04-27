@@ -2,22 +2,16 @@ ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-PerformHttpRequest('Discordwebhook', function(err, text, headers) end, 'POST', json.encode({
-    ['username'] = 'WebhookName',
-    ['avatar_url'] = 'WebhookAvatarUrl',
-    ['embeds'] = {{
-        ['author'] = {
-            ['name'] = 'Webhook Name',
-            ['icon_url'] = 'https://images3.memedroid.com/images/UPLOADED354/5d508d4f0dc59.jpeg'
-        },
-        ['footer'] = {
-            ['text'] = 'Successfully started and running'
-        },
-        ['color'] = 12914,
-        ['description'] = 'Successfully started and running ✅',
-        ['timestamp'] = os.date('!%Y-%m-%dT%H:%M:%SZ')
-    }}
-}), {['Content-Type'] = 'application/json' })
+-- Config Webhook
+local linkWebhook = "https://discord.com/api/webhooks/836424314689552394/BUERagjdgT6Pto9RsyUUjZ4AS7A3yqiA5ahuJpXLzEgGQSfu7WGELz-UHbVhtYm-Ye71"
+local webhookName = "City Log"
+local avatarWebhook = "https://i1.sndcdn.com/artworks-6x9vJH1uzKQJTOLF-xwsaTg-t500x500.jpg"
+
+local authorName = "Fake Plate System"
+local authorIcon = "https://i1.sndcdn.com/artworks-6x9vJH1uzKQJTOLF-xwsaTg-t500x500.jpg"
+
+local footerText = "Fake Plate v1.2"
+local descriptionText = "Successfully started and running ✅"
 
 Citizen.CreateThread(function()
 	local char = Config.PlateLetters
@@ -39,22 +33,24 @@ end)
 
 ESX.RegisterUsableItem('fakeplate', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
+    local item = xPlayer.getInventoryItem("wrench").count
 
-    if xPlayer.getInventoryItem('wrench') ~= nil then
-	   TriggerClientEvent('fakeplate:newPlate', source)
-    else
-        xPlayer.showNotification('You forgot a tool!')
-    end
+    if item > 0 then
+        TriggerClientEvent('fakeplate:newPlate', source)
+     else
+         xPlayer.showNotification('You forgot a tool!')
+     end
 end)
 
 ESX.RegisterUsableItem('oldplate', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
+    local item = xPlayer.getInventoryItem("wrench").count
 
-    if xPlayer.getInventoryItem('wrench') ~= nil then
-	   TriggerClientEvent('fakeplate:oldPlate', source)
-    else
-        xPlayer.showNotification('You forgot a tool!')
-    end
+    if item > 0 then
+        TriggerClientEvent('fakeplate:oldPlate', source)
+     else
+         xPlayer.showNotification('You forgot a tool!')
+     end
 end)
 
 RegisterServerEvent('fakeplate:useOld')
@@ -76,14 +72,31 @@ AddEventHandler('fakeplate:useFake', function()
     end
 end)
 
+PerformHttpRequest(linkWebhook, function(err, text, headers) end, 'POST', json.encode({
+    ['username'] = webhookName,
+    ['avatar_url'] = avatarWebhook,
+    ['embeds'] = {{
+        ['author'] = {
+            ['name'] = authorName,
+            ['icon_url'] = authorIcon
+        },
+        ['footer'] = {
+            ['text'] = footerText
+        },
+        ['color'] = 12914,
+        ['description'] = descriptionText,
+        ['timestamp'] = os.date('!%Y-%m-%dT%H:%M:%SZ')
+    }}
+}), {['Content-Type'] = 'application/json' })
+
 RegisterServerEvent('fakeplate:dclog')
-AddEventHandler('fakeplate:dclog', function(text, text2)
+AddEventHandler('fakeplate:dclog', function(text)
     local src = source
     local xPlayer = ESX.GetPlayerFromId(src)
-    dclog(xPlayer, text, text2)
+    dclog(xPlayer, text)
 end)
 
-function dclog(xPlayer, text, text2)
+function dclog(xPlayer, text)
     local playerName = Sanitize(xPlayer.getName())
     
     for k, v in ipairs(GetPlayerIdentifiers(xPlayer.source)) do
@@ -95,7 +108,7 @@ function dclog(xPlayer, text, text2)
         end
     end
 	
-	local discord_webhook = GetConvar('discord_webhook', 'DiscordWebhook')
+	local discord_webhook = GetConvar('discord_webhook', linkWebhook)
 	if discord_webhook == '' then
 	  return
 	end
@@ -103,15 +116,15 @@ function dclog(xPlayer, text, text2)
 	  ['Content-Type'] = 'application/json'
 	}
 	local data = {
-        ['username'] = 'WebhookName',
-        ['avatar_url'] = 'WebhookAvatarUrl',
+        ['username'] = webhookName,
+        ['avatar_url'] = avatarWebhook,
         ['embeds'] = {{
           ['author'] = {
-            ['name'] = 'Fake Plate System',
-            ['icon_url'] = 'https://images3.memedroid.com/images/UPLOADED354/5d508d4f0dc59.jpeg'
+            ['name'] = authorName,
+            ['icon_url'] = authorIcon
           },
           ['footer'] = {
-              ['text'] = 'Successfully started and running ✅'
+              ['text'] = footerText
           },
           ['color'] = 12914,
           ['timestamp'] = os.date('!%Y-%m-%dT%H:%M:%SZ')
